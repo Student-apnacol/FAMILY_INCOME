@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Scoring</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Financial Scoring Model</h1>
+        <form id="score-form">
+            <!-- Family ID input -->
+            <label for="family-id">Family ID:</label>
+            <input type="text" id="family-id" name="family-id" required>
+
+            <label for="income">Income:</label>
+            <input type="number" id="income" name="income" required>
+
+            <label for="savings">Savings:</label>
+            <input type="number" id="savings" name="savings" required>
+
+            <label for="monthly-expenses">Monthly Expenses:</label>
+            <input type="number" id="monthly-expenses" name="monthly-expenses" required>
+
+            <label for="loan-payments">Loan Payments:</label>
+            <input type="number" id="loan-payments" name="loan-payments" required>
+
+            <label for="credit-card-spending">Credit Card Spending:</label>
+            <input type="number" id="credit-card-spending" name="credit-card-spending" required>
+
+            <label for="non-essential-spending">Non-Essential Spending:</label>
+            <input type="number" id="non-essential-spending" name="non-essential-spending" required>
+
+            <label for="total-spending">Total Spending:</label>
+            <input type="number" id="total-spending" name="total-spending" required>
+
+            <label for="financial-goals-met">Financial Goals Met (%):</label>
+            <input type="number" id="financial-goals-met" name="financial-goals-met" required>
+
+            <button type="submit">Get Score</button>
+        </form>
+
+        <div id="result" style="display:none;">
+            <h2>Results</h2>
+            <p><strong>Score:</strong> <span id="score"></span></p>
+            <h3>Insights</h3>
+            <ul id="insights"></ul>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('score-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Gather input values
+            const data = {
+                "Family ID": document.getElementById('family-id').value,
+                income: parseFloat(document.getElementById('income').value),
+                savings: parseFloat(document.getElementById('savings').value),
+                monthly_expenses: parseFloat(document.getElementById('monthly-expenses').value),
+                loan_payments: parseFloat(document.getElementById('loan-payments').value),
+                credit_card_spending: parseFloat(document.getElementById('credit-card-spending').value),
+                non_essential_spending: parseFloat(document.getElementById('non-essential-spending').value),
+                total_spending: parseFloat(document.getElementById('total-spending').value),
+                financial_goals_met: parseFloat(document.getElementById('financial-goals-met').value)
+            };
+
+            // Send data to the server
+            fetch('/calculate_score', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    // Display the results
+                    document.getElementById('score').textContent = data.Score;
+                    const insightsList = document.getElementById('insights');
+                    insightsList.innerHTML = '';
+                    data.Insights.forEach(insight => {
+                        const li = document.createElement('li');
+                        li.textContent = insight;
+                        insightsList.appendChild(li);
+                    });
+                    document.getElementById('result').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error);
+            });
+        });
+    </script>
+</body>
+</html>
