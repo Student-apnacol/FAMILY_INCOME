@@ -1,44 +1,41 @@
-# XGBoost Regressor Hyperparameter Tuning
+# Financial Scoring Model
 
-This repository demonstrates how to build, tune, and evaluate an XGBoost regressor for predictive tasks. The project focuses on tuning hyperparameters to achieve optimal performance using various methods like Grid Search, Random Search, and Bayesian Optimization.
-
----
-
-## Table of Contents
-1. [Project Overview](#project-overview)
-2. [Setup Instructions](#setup-instructions)
-3. [Model Logic](#model-logic)
-4. [Usage](#usage)
-5. [Results](#results)
-6. [Contributing](#contributing)
-7. [License](#license)
+This application calculates financial scores for families based on various parameters, providing actionable insights to improve financial health.
 
 ---
 
-## Project Overview
-XGBoost is a powerful and scalable gradient boosting framework widely used for regression and classification problems. This project demonstrates:
-- The application of hyperparameter tuning techniques.
-- Performance evaluation using Mean Squared Error (MSE) as the evaluation metric.
+## Process Overview
+
+1. **Data Preparation**
+   - Load family financial data from `family_financial_and_transactions_data.csv`.
+   - Group transactions by family and member, aggregating amounts and categorizing expenses.
+
+2. **Feature Engineering**
+   - Calculate key metrics such as:
+     - Savings-to-Income Ratio
+     - Monthly Expenses Percentage
+     - Loan Payments Percentage
+     - Spending Distribution
+     - Financial Goals Met Ratio
+   - Compute the final financial score using weighted metrics.
+
+3. **Web Application**
+   - A user-friendly interface built with HTML, CSS, and JavaScript.
+   - Users input financial details such as income, savings, and expenses.
+   - The backend Flask API calculates the score and returns insights.
+
+4. **Insights**
+   - Highlights areas like:
+     - Savings adequacy
+     - Expense management
+     - Loan repayment impact
+   - Presented in an organized, actionable format.
 
 ---
 
-## Setup Instructions
+## Installation and Usage
 
-### Prerequisites
-- Python 3.8 or later
-- A virtual environment tool (e.g., `venv` or `conda`)
-
-### Libraries
-The following Python libraries are required:
-- `xgboost`
-- `scikit-learn`
-- `optuna` (optional, for Bayesian Optimization)
-- `numpy`
-- `pandas`
-- `matplotlib` (for visualizing results)
-
-### Installation Steps
-1. Clone the repository:
+1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/xgboost-regressor-tuning.git
-   cd xgboost-regressor-tuning
+   git clone https://github.com/your-repo/financial-scoring-model.git
+   cd financial-scoring-model
